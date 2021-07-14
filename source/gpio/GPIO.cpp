@@ -11,17 +11,6 @@ namespace GPIO {
 		gpioTerminate();
 	}
 
-	bool setInputPins(const PinID pins[], const size_t count) {
-		// Iterate over passed array
-		for (size_t i = 0; i < count; i++) {
-			if (gpioSetMode(pins[i], PI_INPUT) < 0) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
 	bool setOutputPins(const PinID pins[], const size_t count) {
 		// Iterate over passed array
 		for (size_t i = 0; i < count; i++) {
