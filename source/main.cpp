@@ -1,6 +1,7 @@
 #include "gpio/GPIO.hpp"
 #include <iostream>
 #include "MCP3008.hpp"
+#include "TLC59711.hpp"
 #include <thread>
 
 int main(void) {
@@ -10,10 +11,9 @@ int main(void) {
         return -1;
     }
 
-    // Setup output pins
-    if (!GPIO::setOutputPins(GPIO::Pin::outputs, GPIO::Pin::outputCount)) {
-        std::cerr << "[GPIO] Couldn't initialize all output pins" << std::endl;
-        return -2;
+    // Ensure all pins start initially off
+    for (GPIO::PinID pin : GPIO::Pin::outputs) {
+        GPIO::setPinState(pin, GPIO::State::Off);
     }
 
     // Create MCP3008 object
@@ -34,7 +34,7 @@ int main(void) {
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 
-    // Destroy object
+    // Destroy objects
     delete piezos;
 
     // Clean up GPIO + library

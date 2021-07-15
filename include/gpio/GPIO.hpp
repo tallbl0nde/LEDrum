@@ -2,20 +2,29 @@
 #define GPIO_GPIO_HPP
 
 #include <cstddef>
-#include "gpio/Pin.hpp"
+#include "gpio/Pins.hpp"
 
 // This file contains various helpers to interact with the PiGPIO
 // library, as well as initialize and clean it up.
 namespace GPIO {
-	// Initialize the GPIO library + pins
-	// Returns true on success, false otherwise
-	bool initialize();
+    // Enumeration of possible pin states
+    enum class State {
+        Off,
+        On
+    };
 
-	// Cleanup the GPIO library
-	void cleanup();
+    // Initialize the GPIO library + pins
+    // Returns true on success, false otherwise
+    bool initialize();
 
-	// Set the given array of pins as input/output
-	bool setOutputPins(const PinID[], const size_t);
+    // Cleanup the GPIO library
+    void cleanup();
+
+    // Set the state of the given pin
+    void setPinState(const PinID pin, const State state);
+
+    // Set the PWM duty cycle on the given pin
+    void setPWM(const PinID pin, const uint8_t duty);
 };
 
 #endif

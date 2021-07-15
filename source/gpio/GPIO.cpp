@@ -1,24 +1,21 @@
 #include "gpio/GPIO.hpp"
-#include "gpio/Pin.hpp"
 #include <pigpio.h>
 
 namespace GPIO {
-	bool initialize() {
-		return (gpioInitialise() >= 0);
-	}
+    bool initialize() {
+        return (gpioInitialise() >= 0);
+    }
 
-	void cleanup() {
-		gpioTerminate();
-	}
+    void cleanup() {
+        gpioTerminate();
+    }
 
-	bool setOutputPins(const PinID pins[], const size_t count) {
-		// Iterate over passed array
-		for (size_t i = 0; i < count; i++) {
-			if (gpioSetMode(pins[i], PI_OUTPUT) < 0) {
-				return false;
-			}
-		}
+    void setPinState(const PinID pin, const State state) {
+        gpioSetMode(pin, PI_OUTPUT);
+        gpioWrite(pin, state == State::Off ? 0 : 1);
+    }
 
-		return true;
-	}
+    void setPWM(const PinID pin, const uint8_t duty) {
+        gpioPWM(pin, duty);
+    }
 }
